@@ -1,4 +1,4 @@
-module github.com/emersion/go-msgauth
+module github.com/err-him/go-dkim
 
 go 1.12
 
