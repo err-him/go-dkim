@@ -57,7 +57,7 @@ func TestFormatHeaderParams(t *testing.T) {
 
 	expected := "DKIM-Signature: a=rsa-sha256; d=example.org; v=1;"
 
-	s := formatHeaderParams("DKIM-Signature", params)
+	s := formatHeaderParams( params)
 	if s != expected {
 		t.Errorf("Expected formatted params to be %q, but got %q", expected, s)
 	}
@@ -75,7 +75,7 @@ func TestLongHeaderFolding(t *testing.T) {
 
 	expected := "DKIM-Signature: a=rsa-sha256; d=example.org;\r\n h=From:To:Subject:Date:Message-ID:Long-Header-Name; v=1;"
 
-	s := formatHeaderParams("DKIM-Signature", params)
+	s := formatHeaderParams(params)
 	if s != expected {
 		t.Errorf("Expected formatted params to be\n\n %q\n\n, but got\n\n %q", expected, s)
 	}
@@ -91,7 +91,7 @@ func TestSignedHeaderFolding(t *testing.T) {
 		"h": hValue,
 	}
 
-	s := formatHeaderParams("DKIM-Signature", params)
+	s := formatHeaderParams(params)
 	if !strings.Contains(s, hValue) {
 		t.Errorf("Signed Headers names (%v) are not well folded in the signed header %q", hValue, s)
 	}

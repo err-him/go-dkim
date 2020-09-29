@@ -1,12 +1,11 @@
 package dkim_test
 
 import (
-	"bytes"
 	"crypto"
 	"log"
 	"strings"
 
-	"github.com/emersion/go-msgauth/dkim"
+	"github.com/err-him/go-dkim/dkim"
 )
 
 var (
@@ -22,9 +21,7 @@ func ExampleSign() {
 		Selector: "brisbane",
 		Signer:   privateKey,
 	}
-
-	var b bytes.Buffer
-	if err := dkim.Sign(&b, r, options); err != nil {
+	if _, err := dkim.Sign(r, options); err != nil {
 		log.Fatal(err)
 	}
 }
