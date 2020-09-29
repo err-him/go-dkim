@@ -306,10 +306,10 @@ func (s *Signer) Signature() string {
 }
 
 // Sign signs a message. It reads it from r and writes the signed version to w.
-func Sign(w io.Writer, r io.Reader, options *SignOptions) error {
+func Sign(r io.Reader, options *SignOptions) (string, error) {
 	s, err := NewSigner(options)
 	if err != nil {
-		return err
+		return "", err
 	}
 	defer s.Close()
 
@@ -319,17 +319,12 @@ func Sign(w io.Writer, r io.Reader, options *SignOptions) error {
 	mw := io.MultiWriter(&b, s)
 
 	if _, err := io.Copy(mw, r); err != nil {
-		return err
+		return "", err
 	}
 	if err := s.Close(); err != nil {
-		return err
+		return "", err
 	}
-
-	if _, err := io.WriteString(w, s.Signature()); err != nil {
-		return err
-	}
-	_, err = io.Copy(w, &b)
-	return err
+	return s.Signature(), err
 }
 
 func formatSignature(params map[string]string) string {
